@@ -1,0 +1,122 @@
+<view class="page">
+  <view class="glow glow-1"></view>
+  <view class="glow glow-2"></view>
+
+  <!-- 方法切换 -->
+  <scroll-view class="method-bar" scroll-x enable-flex="true" show-scrollbar="false">
+    <view wx:for="{{methods}}" wx:key="id"
+          class="method-chip {{index === methodIndex ? 'active' : ''}}"
+          data-index="{{index}}" bindtap="onMethodTap">
+      <text class="chip-name">{{item.name}}</text>
+      <text class="chip-en">{{item.en}}</text>
+    </view>
+  </scroll-view>
+
+  <!-- 方法信息 -->
+  <view class="method-info">
+    <text class="evi-badge strong">{{method.evidence}}</text>
+    <text class="tagline">{{method.tagline}}</text>
+  </view>
+
+  <!-- 呼吸圆 -->
+  <view class="breath-wrap">
+    <view class="ring ring-outer">
+      <view class="ring ring-inner" style="transform: scale({{scale}});">
+        <view class="ring-fill"></view>
+      </view>
+    </view>
+    <view class="circle-center">
+      <view class="phase-text">{{phaseText}}</view>
+      <view class="countdown" wx:if="{{status === 'running' || status === 'paused'}}">{{remaining}}<text class="unit">秒</text></view>
+      <view class="countdown done-mark" wx:elif="{{status === 'done'}}">✓</view>
+      <view class="tip">{{tip}}</view>
+    </view>
+  </view>
+
+  <!-- 循环进度 -->
+  <view class="cycle-row">
+    <view class="cycle-dots">
+      <view wx:for="{{cycleArray}}" wx:key="*this" class="cycle-dot {{index < cycle ? 'filled' : ''}}"></view>
+    </view>
+    <view class="cycle-label">{{cycle}} / {{totalCycles}} 组</view>
+  </view>
+
+  <!-- 控制 -->
+  <view class="controls">
+    <button wx:if="{{status === 'ready'}}" class="btn btn-primary" bindtap="start">开 始</button>
+    <block wx:elif="{{status === 'running'}}">
+      <button class="btn btn-ghost" bindtap="pause">暂 停</button>
+      <button class="btn btn-ghost" bindtap="reset">重 置</button>
+    </block>
+    <block wx:elif="{{status === 'paused'}}">
+      <button class="btn btn-primary" bindtap="start">继 续</button>
+      <button class="btn btn-ghost" bindtap="reset">重 置</button>
+    </block>
+    <block wx:elif="{{status === 'done'}}">
+      <button class="btn btn-primary" bindtap="reset">再来一组</button>
+    </block>
+  </view>
+
+  <!-- 自定义节奏 -->
+  <view class="custom-btn" bindtap="openCustom">
+    <text>自定义吸气 / 屏气 / 呼气时长</text>
+    <text class="custom-gear">⚙</text>
+  </view>
+
+  <!-- 分享入口 -->
+  <view class="share-row">
+    <button class="share-btn" open-type="share">
+      <text class="share-icon">↗</text><text>分享给好友</text>
+    </button>
+  </view>
+
+  <!-- 方法说明 -->
+  <view class="info" bindtap="toggleInfo">
+    <view class="info-title">
+      <text>{{method.name}} 是什么？</text>
+      <text class="chevron {{showInfo ? 'open' : ''}}">›</text>
+    </view>
+    <view class="info-body" wx:if="{{showInfo}}">
+      <view class="info-desc">{{method.desc}}</view>
+      <view class="info-phases">
+        <view wx:for="{{phases}}" wx:key="key" class="info-phase">
+          <text class="info-phase-text">{{item.text}}</text>
+          <text class="info-phase-dur">{{item.durText}} 秒</text>
+        </view>
+      </view>
+      <view class="disclaimer">提示：本工具仅供放松与冥想练习，不构成医疗建议。若练习中感到头晕、过度换气或不适，请立即停止并恢复正常呼吸。</view>
+    </view>
+  </view>
+
+  <view class="footer">专注于每一次呼吸</view>
+
+  <!-- 自定义面板 -->
+  <view class="sheet-mask" wx:if="{{showCustom}}" bindtap="closeCustom"></view>
+  <view class="sheet" wx:if="{{showCustom}}">
+    <view class="sheet-title">
+      <text>自定义「{{method.name}}」节奏</text>
+      <text class="sheet-close" bindtap="closeCustom">✕</text>
+    </view>
+    <view class="sheet-tip">按 0.5 秒步进调整，吸气 / 屏气 / 呼气均可自由设置</view>
+    <view class="phase-edit" wx:for="{{customPhases}}" wx:key="index">
+      <text class="phase-name">{{item.text}}</text>
+      <view class="stepper">
+        <view class="step-btn" data-index="{{index}}" data-delta="-0.5" bindtap="adjustPhase">−</view>
+        <text class="step-val">{{item.durText}}s</text>
+        <view class="step-btn" data-index="{{index}}" data-delta="0.5" bindtap="adjustPhase">＋</view>
+      </view>
+    </view>
+    <view class="phase-edit">
+      <text class="phase-name">循环组数</text>
+      <view class="stepper">
+        <view class="step-btn" data-index="-1" data-delta="-1" bindtap="adjustCycles">−</view>
+        <text class="step-val">{{customCycles}}</text>
+        <view class="step-btn" data-index="-1" data-delta="1" bindtap="adjustCycles">＋</view>
+      </view>
+    </view>
+    <view class="sheet-actions">
+      <button class="btn-ghost sm" bindtap="resetCustom">恢复默认</button>
+      <button class="btn-primary sm" bindtap="saveCustom">完 成</button>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,34 @@
+# ===== 微信小程序（本机专属，不要同步）=====
+project.private.config.json
+miniprogram_npm/
+miniprogram_dist/
+node_modules/
+
+# ===== macOS =====
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.fseventsd/
+.Spotlight-V100/
+.Trashes/
+Icon?
+
+# ===== Windows =====
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# ===== 编辑器 / IDE =====
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ===== 日志与临时文件 =====
+*.log
+npm-debug.log*
+yarn-error.log*
+*.zip
+.env
+.env.*

@@ -1,0 +1,14 @@
+{
+  "pages": [
+    "pages/index/index"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#0B2230",
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "呼吸训练",
+    "backgroundColor": "#0B2230",
+    "backgroundTextStyle": "light"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

@@ -1,0 +1,6 @@
+page {
+  background: #0B2230;
+  color: #E8F4F1;
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
